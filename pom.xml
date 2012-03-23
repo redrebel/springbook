@@ -8,13 +8,23 @@
   <name>springbook Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-    <dependency>
+    <!-- <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
-    </dependency>
-    
+    </dependency>-->
+    <dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.10</version>
+</dependency>
+            <dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-test</artifactId>
+	<version>3.0.7.RELEASE</version>
+</dependency>
+            
 <dependency>
 	<groupId>org.springframework</groupId>
 	<artifactId>spring-core</artifactId>
