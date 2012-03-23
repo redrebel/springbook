@@ -21,7 +21,8 @@ public class UserDaoTest {
 		
 		
 		//UserDao dao = new DaoFactory().userDao();
-		
+		dao.deleteAll();
+		System.out.println(dao.getCount());
 		User user = new User();
 		user.setId("whiteship");
 		user.setName("백기선");
@@ -36,7 +37,7 @@ public class UserDaoTest {
 		System.out.println(user2.getPassword());
 		
 		System.out.println(user2.getId() + " 조회 성공");
-
+		System.out.println(dao.getCount());
 	}
 
 }
