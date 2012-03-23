@@ -13,12 +13,21 @@ public class UserDao {
 	private DataSource dataSource;
 	private ConnectionMaker connectionMaker;
 	
+	private JdbcContext jdbcContext;
+	
+	
 	//public UserDao(ConnectionMaker connectionMaker) {
 	//	this.connectionMaker = connectionMaker;
 	//}
 
 
+	public void setJdbcContext(JdbcContext jdbcContext) {
+		this.jdbcContext = jdbcContext;
+	}
+
 	public void setDataSource(DataSource dataSource) {
+		this.jdbcContext = new JdbcContext();
+		this.jdbcContext.setDataSource(dataSource);
 		this.dataSource = dataSource;
 	}
 
@@ -26,22 +35,7 @@ public class UserDao {
 		this.connectionMaker = connectionMaker;
 	}
 
-	public void jdbcContextWithStatementStrategy(StatementStratery stmt) throws
-		SQLException{
-		Connection c = null;
-		PreparedStatement ps =null;
-		
-		try{
-			c = dataSource.getConnection();
-			ps = stmt.makePreparedStatement(c);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			throw e;
-		}finally {
-			if(ps != null) { try { ps.close(); } catch (SQLException e) {} }
-			if(c != null) { try { c.close(); } catch (SQLException e) {} }
-		}
-	}
+
 	
 	public void add(final User user) throws ClassNotFoundException, SQLException{
 		//Connection c = connectionMaker.makeConnection();
@@ -60,7 +54,7 @@ public class UserDao {
 		c.close();
 		*/
 		
-		jdbcContextWithStatementStrategy(
+		this.jdbcContext.workWithStatementStrategy(
 			new StatementStratery() {
 				public PreparedStatement makePreparedStatement(Connection c)
 						throws SQLException {
@@ -124,16 +118,7 @@ public class UserDao {
 			}
 		}
 	*/
-		jdbcContextWithStatementStrategy(
-			new StatementStratery() {
-				public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					// TODO Auto-generated method stub
-					
-					return c.prepareStatement("delete from users");
-				}
-			}	
-		);
+		this.jdbcContext.executeSql("delete from users");
 	}
 	
 	public int getCount() throws SQLException {
