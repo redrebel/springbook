@@ -25,9 +25,27 @@ public class UserDao {
 	public void setConnectionMaker(ConnectionMaker connectionMaker) {
 		this.connectionMaker = connectionMaker;
 	}
+
+	public void jdbcContextWithStatementStrategy(StatementStratery stmt) throws
+		SQLException{
+		Connection c = null;
+		PreparedStatement ps =null;
+		
+		try{
+			c = dataSource.getConnection();
+			ps = stmt.makePreparedStatement(c);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw e;
+		}finally {
+			if(ps != null) { try { ps.close(); } catch (SQLException e) {} }
+			if(c != null) { try { c.close(); } catch (SQLException e) {} }
+		}
+	}
 	
-	public void add(User user) throws ClassNotFoundException, SQLException{
+	public void add(final User user) throws ClassNotFoundException, SQLException{
 		//Connection c = connectionMaker.makeConnection();
+		/*
 		Connection c = dataSource.getConnection();
 		
 		PreparedStatement ps = c.prepareStatement(
@@ -40,11 +58,24 @@ public class UserDao {
 		
 		ps.close();
 		c.close();
+		*/
+		
+		jdbcContextWithStatementStrategy(
+			new StatementStratery() {
+				public PreparedStatement makePreparedStatement(Connection c)
+						throws SQLException {
+					// TODO Auto-generated method stub
+					PreparedStatement ps = 
+						c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
+					ps.setString(1, user.getId());
+					ps.setString(2, user.getName());
+					ps.setString(3, user.getPassword());
+						
+					return ps;
+				}
+			}
+		);
 	}
-
-
-
-
 
 	public User get(String id) throws ClassNotFoundException, SQLException{
 		//Connection c = connectionMaker.makeConnection();
@@ -68,6 +99,7 @@ public class UserDao {
 	}
 	
 	public void deleteAll() throws SQLException{
+		/*
 		Connection c = null;
 		PreparedStatement ps = null; 
 			
@@ -91,7 +123,17 @@ public class UserDao {
 				}
 			}
 		}
-	
+	*/
+		jdbcContextWithStatementStrategy(
+			new StatementStratery() {
+				public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					// TODO Auto-generated method stub
+					
+					return c.prepareStatement("delete from users");
+				}
+			}	
+		);
 	}
 	
 	public int getCount() throws SQLException {
