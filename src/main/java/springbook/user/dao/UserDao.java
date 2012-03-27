@@ -7,13 +7,15 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import springbook.user.domain.User;
 
 public class UserDao {
 	private DataSource dataSource;
 	private ConnectionMaker connectionMaker;
-	
 	private JdbcContext jdbcContext;
+	private JdbcTemplate jdbcTemplate;
 	
 	
 	//public UserDao(ConnectionMaker connectionMaker) {
@@ -28,6 +30,7 @@ public class UserDao {
 	public void setDataSource(DataSource dataSource) {
 		this.jdbcContext = new JdbcContext();
 		this.jdbcContext.setDataSource(dataSource);
+		//this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.dataSource = dataSource;
 	}
 
@@ -69,6 +72,8 @@ public class UserDao {
 				}
 			}
 		);
+		//this.jdbcTemplate.update("insert into users(id, name, password) values(?, ?, ?)",
+		//		user.getId(), user.getName(), user.getPassword());
 	}
 
 	public User get(String id) throws ClassNotFoundException, SQLException{
@@ -119,6 +124,7 @@ public class UserDao {
 		}
 	*/
 		this.jdbcContext.executeSql("delete from users");
+		//this.jdbcTemplate.update("delete from users");
 	}
 	
 	public int getCount() throws SQLException {
