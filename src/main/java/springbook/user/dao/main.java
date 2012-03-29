@@ -1,3 +1,5 @@
+package springbook.user.dao;
+
 import java.sql.SQLException;
 
 import springbook.user.domain.*;

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import springbook.user.domain.User;
 
@@ -28,9 +29,9 @@ public class UserDao {
 	}
 
 	public void setDataSource(DataSource dataSource) {
-		this.jdbcContext = new JdbcContext();
-		this.jdbcContext.setDataSource(dataSource);
-		//this.jdbcTemplate = new JdbcTemplate(dataSource);
+		//this.jdbcContext = new JdbcContext();
+		//this.jdbcContext.setDataSource(dataSource);
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.dataSource = dataSource;
 	}
 
@@ -56,7 +57,7 @@ public class UserDao {
 		ps.close();
 		c.close();
 		*/
-		
+		/*
 		this.jdbcContext.workWithStatementStrategy(
 			new StatementStratery() {
 				public PreparedStatement makePreparedStatement(Connection c)
@@ -71,13 +72,14 @@ public class UserDao {
 					return ps;
 				}
 			}
-		);
-		//this.jdbcTemplate.update("insert into users(id, name, password) values(?, ?, ?)",
-		//		user.getId(), user.getName(), user.getPassword());
+		);*/
+		this.jdbcTemplate.update("insert into users(id, name, password) values(?, ?, ?)",
+				user.getId(), user.getName(), user.getPassword());
 	}
 
 	public User get(String id) throws ClassNotFoundException, SQLException{
 		//Connection c = connectionMaker.makeConnection();
+		/*
 		Connection c = dataSource.getConnection();
 		PreparedStatement ps = c.prepareStatement(
 				"select * from users where id = ?");
@@ -94,7 +96,19 @@ public class UserDao {
 		ps.close();
 		c.close();
 		
-		return user;
+		return user;*/
+		return this.jdbcTemplate.queryForObject("select * from users where id = ?",
+				new Object[] {id}, 
+				new RowMapper<User>() {
+			public User mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				User user = new User();
+				user.setId(rs.getString("id"));
+				user.setName(rs.getString("name"));
+				user.setPassword(rs.getString("password"));
+				return user;
+			}
+		});
 	}
 	
 	public void deleteAll() throws SQLException{
@@ -123,11 +137,12 @@ public class UserDao {
 			}
 		}
 	*/
-		this.jdbcContext.executeSql("delete from users");
-		//this.jdbcTemplate.update("delete from users");
+		//this.jdbcContext.executeSql("delete from users");
+		this.jdbcTemplate.update("delete from users");
 	}
 	
 	public int getCount() throws SQLException {
+		/*
 		Connection c = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -163,7 +178,8 @@ public class UserDao {
 					
 				}
 			}
-		}
+		}*/
+		return this.jdbcTemplate.queryForInt("select count(*) from users");
 	}
 }
 
