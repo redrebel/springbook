@@ -35,7 +35,7 @@ public class UserDaoTest {
 		assertThat(dao.getCount(), is(2));
 		
 		dao.add(user3);
-		assertThat(dao.getCount(), is(3));
+		assertThat(2, is(3));
 	}
 	
 	@Test
