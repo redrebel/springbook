@@ -27,7 +27,6 @@ import springbook.user.dao.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/applicationContext.xml")
-//@DirtiesContext
 public class UserDaoTest {
 	@Autowired
 	private ApplicationContext context;
