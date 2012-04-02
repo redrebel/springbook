@@ -3,6 +3,8 @@ package springbook.user.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
@@ -15,7 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
+import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,9 +34,9 @@ import springbook.user.dao.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/applicationContext.xml")
 public class UserDaoTest {
-	@Autowired
-	private ApplicationContext context;
-	private UserDao dao;
+	@Autowired	private ApplicationContext context;
+	@Autowired	UserDao dao;
+	@Autowired DataSource dataSource;
 	private User user1;
 	private User user2;
 	private User user3;
@@ -42,6 +48,29 @@ public class UserDaoTest {
 		this.user1 = new User("gyumee", "박성철", "springno1");
 		this.user2 = new User("leegw700", "이길원", "springno2");
 		this.user3 = new User("bumjin", "박범진", "springno3");
+	}
+	
+	@Test
+	public void sqlExceptionTranslate(){
+		dao.deleteAll();
+		
+		try{
+			dao.add(user1);
+			dao.add(user1);
+		}
+		catch(DuplicateKeyException ex){
+			SQLException sqlEx = (SQLException)ex.getRootCause();
+			SQLExceptionTranslator set = new SQLErrorCodeSQLExceptionTranslator(this.dataSource);
+			assertThat(set.translate(null, null, sqlEx), is(DuplicateKeyException.class));
+		}
+	}
+	
+	@Test(expected=DuplicateKeyException.class)
+	public void duplicateKey(){
+		dao.deleteAll();
+		
+		dao.add(user1);
+		dao.add(user1);
 	}
 	
 	@Test(expected=EmptyResultDataAccessException.class)

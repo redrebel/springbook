@@ -11,10 +11,11 @@ public class DaoFactory {
 	@Bean
 	public UserDao userDao() {
 		//return new UserDao(connectionMaker());
-		UserDao userDao = new UserDao();
+		//UserDao userDao = new UserDao();
 		//userDao.setConnectionMaker(connectionMaker());
-		userDao.setDataSource(dataSource());
-		return userDao;
+		//userDao.setDataSource(dataSource());
+		//return userDao;
+		return null;
 	}
 	
 	@Bean
@@ -39,3 +40,4 @@ public class DaoFactory {
 		return userDao;
 	}*/
 }
+
