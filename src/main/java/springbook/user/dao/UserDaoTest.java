@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import springbook.user.domain.*;
 import springbook.user.dao.*;
+import springbook.user.service.UserService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,6 +38,8 @@ public class UserDaoTest {
 	@Autowired	private ApplicationContext context;
 	@Autowired	UserDao dao;
 	@Autowired DataSource dataSource;
+	@Autowired UserService userService;
+	
 	private User user1;
 	private User user2;
 	private User user3;
@@ -48,6 +51,22 @@ public class UserDaoTest {
 		this.user1 = new User("gyumee", "박성철", "springno1", Level.BASIC, 1, 0, "");
 		this.user2 = new User("leegw700", "이길원", "springno2", Level.SILVER, 55, 10, "");
 		this.user3 = new User("bumjin", "박범진", "springno3", Level.GOLD, 100, 40, "");
+	}
+	
+	@Test
+	public void update(){
+		dao.deleteAll();
+		dao.add(user1);
+		
+		user1.setName("오민규");
+		user1.setPassword("springno6");
+		user1.setLevel(Level.GOLD);
+		user1.setLogin(1000);
+		user1.setRecommend(999);
+		dao.update(user1);
+		
+		User user1update = dao.get(user1.getId());
+		checkSameUser(user1, user1update);
 	}
 	
 	@Test
