@@ -33,7 +33,7 @@ import springbook.user.service.UserService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="/applicationContext.xml")
+@ContextConfiguration(locations="/test-applicationContext.xml")
 public class UserDaoTest {
 	@Autowired	private ApplicationContext context;
 	@Autowired	UserDao dao;

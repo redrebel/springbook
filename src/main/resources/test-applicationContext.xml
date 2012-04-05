@@ -17,6 +17,7 @@
 <bean id="userService" class="springbook.user.service.UserService">
 	<property name="userDao" ref="userDao"></property>
 	<property name="transactionManager" ref="transactionManager"></property>
+	<property name="mailSender" ref="mailSender"></property>
 </bean>
 
 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -27,5 +28,8 @@
 	<property name="dataSource" ref="dataSource"></property>
 </bean>
 
+<bean id="mailSender" class="springbook.user.service.DumyMailSender">
+
+</bean>
 
 </beans>
