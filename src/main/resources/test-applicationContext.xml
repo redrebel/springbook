@@ -14,9 +14,13 @@
 <property name="password" value="book"></property>
 </bean>
 
-<bean id="userService" class="springbook.user.service.UserService">
-	<property name="userDao" ref="userDao"></property>
+<bean id="userService" class="springbook.user.service.UserServiceTx">
+	<property name="userService" ref="userServiceImpl"></property>
 	<property name="transactionManager" ref="transactionManager"></property>
+</bean>
+
+<bean id="userServiceImpl" class="springbook.user.service.UserServiceImpl">
+	<property name="userDao" ref="userDao"></property>
 	<property name="mailSender" ref="mailSender"></property>
 </bean>
 
