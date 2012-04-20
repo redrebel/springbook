@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.JUnitCore;
+//import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 
 import static org.hamcrest.CoreMatchers.is;	// 流立持绢林绢具凳
@@ -15,20 +15,20 @@ import static org.junit.Assert.assertThat;	// 流立持绢林绢具凳
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
-import org.springframework.dao.DataAccessException;
+//import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+//import org.springframework.context.support.GenericXmlApplicationContext;
+//import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
-import org.springframework.test.annotation.DirtiesContext;
+//import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 import springbook.user.domain.*;
-import springbook.user.dao.*;
+//import springbook.user.dao.*;
 import springbook.user.service.UserService;
 
 

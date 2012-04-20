@@ -8,9 +8,10 @@ import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.JUnitCore;
+//import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 
+import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mail.MailSender;
@@ -100,6 +101,7 @@ public class UserServiceTest {
 		assertThat(updated.getLevel(), is(expectedLevel));
 	}
 	
+	@SuppressWarnings("unused")
 	private void checkLevel(User user, Level expectedLevel){
 		User userUpdate = userDao.get(user.getId());
 		assertThat(userUpdate.getLevel(), is(expectedLevel));
@@ -123,12 +125,12 @@ public class UserServiceTest {
 		testUserService.setTransactionManager(transactionManager);
 		testUserService.setMailSender(mailSender);
 		
-		TxProxyFactoryBean txProxyFactoryBean =
-			context.getBean("&userService", TxProxyFactoryBean.class);
+		ProxyFactoryBean txProxyFactoryBean =
+			context.getBean("&userService", ProxyFactoryBean.class);
 		txProxyFactoryBean.setTarget(testUserService);
 		UserService txUserService = (UserService) txProxyFactoryBean.getObject();
 		
-		userDao.deleteAll();
+		userDao.deleteAll(); 
 		for(User user : users) userDao.add(user);
 		
 		try{
@@ -161,7 +163,7 @@ public class UserServiceTest {
 	
 	static class MockUserDao implements UserDao{
 		private List<User> users;
-		private List<User> updated = new ArrayList();
+		private List<User> updated = new ArrayList<User>();
 		
 		private MockUserDao(List<User> users) {
 			this.users = users;
