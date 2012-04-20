@@ -16,7 +16,7 @@ public class MockMailSender implements MailSender {
 	}
 
 	public void send(SimpleMailMessage mailMessage) throws MailException {
-		requests.add(mailMessage.getTo()[0]);
+		requests.add(mailMessage.getTo()[0]); 
 
 	}
 
