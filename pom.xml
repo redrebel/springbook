@@ -71,8 +71,12 @@
 	<artifactId>spring-aop</artifactId>
 	<version>3.0.7.RELEASE</version>
 </dependency>
+<dependency>
+	<groupId>org.aspectj</groupId>
+	<artifactId>aspectjtools</artifactId>
+	<version>1.6.12</version>
+</dependency>
             
-             
 <!-- <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>com.springsource.javax.activation</artifactId>

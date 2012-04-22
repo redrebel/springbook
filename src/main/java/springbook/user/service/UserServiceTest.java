@@ -34,7 +34,7 @@ import static org.hamcrest.CoreMatchers.is;
 @ContextConfiguration(locations="/test-applicationContext.xml")
 public class UserServiceTest {
 	@Autowired UserService userService;
-	@Autowired UserServiceImpl userServiceImpl;
+	@Autowired UserService testUserService;
 	@Autowired UserDao userDao;
 	@Autowired DataSource dataSource;
 	@Autowired PlatformTransactionManager transactionManager;
@@ -118,23 +118,13 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	@DirtiesContext
 	public void upgradeAllOrNothing() throws Exception {
-		TestUserService testUserService = new TestUserService(users.get(3).getId());
-		testUserService.setUserDao(userDao);
-		testUserService.setTransactionManager(transactionManager);
-		testUserService.setMailSender(mailSender);
-		
-		ProxyFactoryBean txProxyFactoryBean =
-			context.getBean("&userService", ProxyFactoryBean.class);
-		txProxyFactoryBean.setTarget(testUserService);
-		UserService txUserService = (UserService) txProxyFactoryBean.getObject();
 		
 		userDao.deleteAll(); 
 		for(User user : users) userDao.add(user);
 		
 		try{
-			txUserService.upgradeLevels();
+			this.testUserService.upgradeLevels();
 			fail("TestUserServiceException expected");
 		}
 		catch(TestUserServiceException e) {
@@ -144,12 +134,8 @@ public class UserServiceTest {
 		checkLevelUpgrade(users.get(1), false);
 	}
 	
-	static class TestUserService extends UserServiceImpl{
-		private String id;
-		
-		private TestUserService(String id){
-			this.id = id;
-		}
+	static class TestUserServiceImpl extends UserServiceImpl{
+		private String id = "madnite1";
 		
 		protected void upgradeLevel(User user) {
 			if(user.getId().equals(this.id)) throw new TestUserServiceException();
