@@ -37,8 +37,8 @@
 <bean id="mailSender" class="springbook.user.service.DumyMailSender">
 
 </bean>
-
-<tx:advice id="transactionAdvice">
+<tx:annotation-driven />
+<!-- <tx:advice>
 	<tx:attributes>
 		<tx:method name="get*" read-only="true"/>
 		<tx:method name="*" />
@@ -48,7 +48,7 @@
 <aop:config>
 	<aop:advisor advice-ref="transactionAdvice" pointcut="bean(*Service)"/>
 </aop:config>
-
+-->
 
 <bean id="testUserService" class="springbook.user.service.UserServiceTest$TestUserServiceImpl" parent="userService"></bean>
 

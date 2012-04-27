@@ -20,6 +20,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import springbook.user.dao.UserDao;
 import springbook.user.domain.Level;
@@ -55,6 +58,14 @@ public class UserServiceTest {
 				);
 	}
 	
+	@Test
+	@Transactional//(readOnly=true)
+	public void transactionSync(){
+			userDao.deleteAll();
+			userService.add(users.get(0));
+			userService.add(users.get(1));
+		
+	}
 	@Test
 	public void add() {
 		userDao.deleteAll();
@@ -135,7 +146,7 @@ public class UserServiceTest {
 		checkLevelUpgrade(users.get(1), false);
 	}
 	
-	@Test(expected=TransientDataAccessResourceException.class)
+	@Test//(expected=TransientDataAccessResourceException.class)
 	public void readOnlyTransactionAttribute(){
 		testUserService.getAll();
 	}
