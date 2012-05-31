@@ -36,6 +36,7 @@
 </bean>
 
 <bean id="sqlService" class="springbook.user.sqlservice.XmlSqlService">
+	<property name="sqlmapFile" value="sqlmap.xml"></property>
 </bean>
 <bean id="mailSender" class="springbook.user.service.DumyMailSender">
 
@@ -52,7 +53,7 @@
 	<aop:advisor advice-ref="transactionAdvice" pointcut="bean(*Service)"/>
 </aop:config>
 -->
-
+<context:annotation-config></context:annotation-config>
 <bean id="testUserService" class="springbook.user.service.UserServiceTest$TestUserServiceImpl" parent="userService"></bean>
 
 </beans>
