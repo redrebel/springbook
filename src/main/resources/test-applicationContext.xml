@@ -35,9 +35,20 @@
 	<property name="sqlService" ref="sqlService"></property>
 </bean>
 
-<bean id="sqlService" class="springbook.user.sqlservice.XmlSqlService">
+<bean id="sqlService" class="springbook.user.sqlservice.DefaultSqlService"  />
+ <!-- 
+<bean id="sqlService" class="springbook.user.sqlservice.BaseSqlService">
+	<property name="sqlReader" ref="sqlReader"></property>
+	<property name="sqlRegistry" ref="sqlRegistry"></property>
+</bean>
+-->
+<bean id="sqlReader" class="springbook.user.sqlservice.JaxbXmlSqlReader">
 	<property name="sqlmapFile" value="sqlmap.xml"></property>
 </bean>
+
+<bean id="sqlRegistry" class="springbook.user.sqlservice.HashMapSqlRegistry">
+</bean>
+
 <bean id="mailSender" class="springbook.user.service.DumyMailSender">
 
 </bean>
