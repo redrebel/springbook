@@ -12,6 +12,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
+import springbook.user.sqlservice.jaxb.SqlType;
+import springbook.user.sqlservice.jaxb.Sqlmap;
+
 public class JaxbTest {
 	@Test
 	public void readSqlmap() throws JAXBException, IOException{

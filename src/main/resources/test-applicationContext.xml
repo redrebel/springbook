@@ -35,7 +35,13 @@
 	<property name="sqlService" ref="sqlService"></property>
 </bean>
 
-<bean id="sqlService" class="springbook.user.sqlservice.DefaultSqlService"  />
+<bean id="sqlService" class="springbook.user.sqlservice.OxmSqlService"  >
+	<property name="unmarshaller" ref="unmarshaller"></property>
+</bean>
+
+<bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+	<property name="contextPath" value="springbook.user.sqlservice.jaxb"></property>
+</bean>
  <!-- 
 <bean id="sqlService" class="springbook.user.sqlservice.BaseSqlService">
 	<property name="sqlReader" ref="sqlReader"></property>
@@ -46,7 +52,7 @@
 	<property name="sqlmapFile" value="sqlmap.xml"></property>
 </bean>
 
-<bean id="sqlRegistry" class="springbook.user.sqlservice.HashMapSqlRegistry">
+<bean id="sqlRegistry" class="springbook.user.sqlservice.ConcurrentHashMapSqlRegistry">
 </bean>
 
 <bean id="mailSender" class="springbook.user.service.DumyMailSender">
