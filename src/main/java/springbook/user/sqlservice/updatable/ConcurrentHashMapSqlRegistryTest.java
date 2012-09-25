@@ -49,7 +49,7 @@ public class ConcurrentHashMapSqlRegistryTest {
 	public void updateSingle()
 	{
 		sqlRegistry.updateSql("KEY2", "Modified2");
-		checkFindResult("SQL2", "Modified2", "SQL3");
+		checkFindResult("SQL1", "Modified2", "SQL3");
 	}
 	
 	@Test
