@@ -10,4 +10,4 @@
 <sql key="getCount">select count(*) from users</sql>
 <sql key="update">update users set name = ?, password = ?, email = ?,
 	level = ?, login = ?, recommend = ? where id = ?</sql>
-</sqlmap>
+</sqlmap> 

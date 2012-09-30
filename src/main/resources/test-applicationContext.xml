@@ -5,9 +5,13 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:oxm ="http://www.springframework.org/schema/oxm"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
 <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>
@@ -54,8 +58,13 @@
 	<property name="sqlmapFile" value="sqlmap.xml"></property>
 </bean>
 
-<bean id="sqlRegistry" class="springbook.user.sqlservice.ConcurrentHashMapSqlRegistry">
+<bean id="sqlRegistry" class="springbook.user.sqlservice.updatable.EmbeddedDbSqlRegistry">
+	<property name="dataSource" ref="embeddedDatabase"></property>
 </bean>
+
+<jdbc:embedded-database id="embeddedDatabase" type="HSQL">
+	<jdbc:script location="classpath:springbook/user/sqlservice/updatable/sqlRegistrySchema.sql"></jdbc:script>
+</jdbc:embedded-database> 
 
 <bean id="mailSender" class="springbook.user.service.DumyMailSender">
 
